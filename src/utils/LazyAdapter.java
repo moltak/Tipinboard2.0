@@ -54,23 +54,17 @@ public class LazyAdapter extends BaseAdapter {
 	}
 
 	public static class ViewHolder {
-		// public TextView text;
 		public TextView item;
 		public TextView obejctId;
 		public TextView category;
-		// public ImageView image;
-		// public ImageView profilePic;
-		// public TextView username2;
-		// public TextView objectId2;
-		// public TextView seen;
-		// public TextView recom;
+	
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View vi = convertView;
 		ViewHolder holder;
 		if (convertView == null) {
-			vi = inflater.inflate(R.layout.featured_adapter_taskboard_list,
+			vi = inflater.inflate(R.layout.tasklist_listadapter_items,
 					null);
 			holder = new ViewHolder();
 			// holder.profilePic = (ImageView) vi.findViewById(R.id.profilePic);

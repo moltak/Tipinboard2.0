@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:orientation="vertical" >
+
+        <EditText
+            android:id="@+id/editText_id"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="아이디"
+            android:text="kaj011" >
+
+            <requestFocus />
+        </EditText>
+
+        <EditText
+            android:id="@+id/editText_password"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="비밀번호"
+            android:inputType="textPassword"
+            android:text="1234" >
+        </EditText>
+
+        <TextView
+            android:id="@+id/button1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:clickable="true"
+            android:gravity="right"
+            android:onClick="getStarted"
+            android:text="계정이 없나요? 여기를 클릭하세요!"
+            android:textSize="15dp" />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:onClick="logIn"
+            android:text="Log In" />
+    </LinearLayout>
+
+</LinearLayout>

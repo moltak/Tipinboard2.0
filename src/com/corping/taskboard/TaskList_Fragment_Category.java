@@ -23,8 +23,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.corping.R;
-import com.corping.manual.MediaActivity_Post;
-import com.corping.manual.MediaActivity_Timeline;
+import com.corping.menual.MenualActivity_Post;
+import com.corping.menual.MenualActivity_Menual;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -54,7 +54,7 @@ public class TaskList_Fragment_Category extends Fragment {
 		final String category = bundle.getString("category");
 
 
-		View view = inflater.inflate(R.layout.fragment2, null, false);
+		View view = inflater.inflate(R.layout.tasklist_fragment_category, null, false);
 //		init();
 	
 		
@@ -124,13 +124,13 @@ public class TaskList_Fragment_Category extends Fragment {
 				if (comment == null) {
 
 					Intent intent = new Intent(getActivity(),
-							MediaActivity_Post.class);
+							MenualActivity_Post.class);
 					intent.putExtra("objectId", objId.getText().toString());
 					startActivity(intent);
 
 				} else {
 					Intent intent2 = new Intent(getActivity(),
-							MediaActivity_Timeline.class);
+							MenualActivity_Menual.class);
 					intent2.putExtra("objectId", objId.getText().toString());
 					startActivity(intent2);
 					Toast.makeText(getActivity(), "Under construction", 3000)

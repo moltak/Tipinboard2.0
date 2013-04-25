@@ -7,9 +7,11 @@ import utils.LazyAdapter;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources.Theme;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -20,7 +22,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -30,13 +31,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.corping.R;
-import com.corping.manual.MediaActivity_Post;
-import com.corping.manual.MediaActivity_Timeline;
+import com.corping.menual.MenualActivity_Menual;
+import com.corping.menual.MenualActivity_Post;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 @TargetApi(8)
 public class TaskList_Fragment_Member extends Fragment {
@@ -54,6 +56,9 @@ public class TaskList_Fragment_Member extends Fragment {
 	private Context MyFragment;
 	String boardId;
 	CharSequence[] categoryCs;
+	String userName;
+	CharSequence category;
+	ProgressDialog progressdialog;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,10 +67,10 @@ public class TaskList_Fragment_Member extends Fragment {
 
 		boardId = bundle.getString("boardId");
 		categoryCs = bundle.getCharSequenceArray("categoryCS");
-		final String userName = bundle.getString("username");
+		userName = bundle.getString("username");
 		final String name = bundle.getString("name");
 
-		View view = inflater.inflate(R.layout.fragment, null, false);
+		View view = inflater.inflate(R.layout.tasklist_fragment_member, null, false);
 
 		MyList = (ListView) view.findViewById(R.id.listView);
 		tv_username = (TextView) view.findViewById(R.id.tv_username);
@@ -110,7 +115,6 @@ public class TaskList_Fragment_Member extends Fragment {
 
 		String usernum = bundle.getString("usernum");
 
-
 		if (usernum.equals("1")) {
 
 			linear_bottom.setVisibility(View.VISIBLE);
@@ -118,7 +122,21 @@ public class TaskList_Fragment_Member extends Fragment {
 		}
 
 		tv_username.setText(name);
+		loadData();
 
+		init();
+		return view;
+	}
+
+	public void loadData() {
+
+		progressdialog = ProgressDialog.show(getActivity(), "", "로딩중...");
+		
+		items.clear();
+		objectIds.clear();
+		categories.clear();
+		
+		
 		ParseQuery query = new ParseQuery("TodoList");
 		query.whereEqualTo("boardId", boardId);
 		query.whereEqualTo("username", userName);
@@ -139,17 +157,14 @@ public class TaskList_Fragment_Member extends Fragment {
 					categories.add(category);
 
 				}
-				// lazyadapter = new LazyAdapter(getActivity(), items,
-				// objectIds, categories);
 				lazyadapter = new LazyAdapter(getActivity(), items, objectIds,
 						categories);
 				MyList.setAdapter(lazyadapter);
+				
+				progressdialog.dismiss();
 			}
 		});
 
-		init();
-		// adapter.notifyDataSetChanged();
-		return view;
 	}
 
 	public void init() {
@@ -180,18 +195,15 @@ public class TaskList_Fragment_Member extends Fragment {
 				if (comment == null) {
 
 					Intent intent = new Intent(getActivity(),
-							MediaActivity_Post.class);
+							MenualActivity_Post.class);
 					intent.putExtra("objectId", objId.getText().toString());
 					startActivity(intent);
-					Toast.makeText(getActivity(), "메뉴얼을 기제해주세요.", 3000)
-					.show();
+					Toast.makeText(getActivity(), "메뉴얼을 적어주세요.", 3000).show();
 				} else {
 					Intent intent2 = new Intent(getActivity(),
-							MediaActivity_Timeline.class);
+							MenualActivity_Menual.class);
 					intent2.putExtra("objectId", objId.getText().toString());
 					startActivity(intent2);
-					Toast.makeText(getActivity(), "메뉴얼 존재", 3000)
-							.show();
 
 				}
 
@@ -217,71 +229,52 @@ public class TaskList_Fragment_Member extends Fragment {
 
 	public Dialog onCreateDialogSingleChoice(final String objectId) {
 
-		
-		
-		
 		// Initialize the Alert Dialog
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
 		// Set the dialog title
-		builder.setTitle("카테고리를 골라주세요!").setSingleChoiceItems(categoryCs, 1,
+		builder.setTitle("카테고리 변경")
+				.setSingleChoiceItems(categoryCs, 0,
 						new DialogInterface.OnClickListener() {
 
 							public void onClick(DialogInterface dialog,
 									final int which) {
-								// TODO Auto-generated method stub
-								
-								CharSequence category = null;
-								
-								switch (which) {
 
-								case 0:
-
-									category = categoryCs[which];
-									break;
-								case 1:
-									category = categoryCs[which];
-									break;
-								case 2:
-									category = categoryCs[which];
-									break;
-								case 3:
-									category = categoryCs[which];
-									break;
-								default:
-									category = categoryCs[which];
-									break;
-								}
-								
-								ParseQuery query = new ParseQuery("TodoList");
-								query.whereEqualTo("objectId", objectId);
-								query.getFirstInBackground(new GetCallback() {
-									
-									@Override
-									public void done(ParseObject object, ParseException e) {
-										
-//										Toast.makeText(getActivity(), object.getString("category"), 3000).show();
-										
-										object.put("category", categoryCs[which]);
-										object.saveInBackground();
-										
-									}
-								});
-							
-								
+								category = categoryCs[which];
 
 							}
 						})
 
 				// Set the action buttons
-				.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+				.setPositiveButton("완료", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, final int id) {
 
-						
+						ParseQuery query = new ParseQuery("TodoList");
+						query.whereEqualTo("objectId", objectId);
+						query.getFirstInBackground(new GetCallback() {
+
+							@Override
+							public void done(ParseObject object,
+									ParseException e) {
+
+								object.put("category", category);
+								object.saveInBackground(new SaveCallback() {
+
+									@Override
+									public void done(ParseException e) {
+										// TODO Auto-generated method stub
+										lazyadapter.notifyDataSetChanged();
+										loadData();
+										 
+									}
+								});
+
+							}
+						});
 
 					}
 				})
-				.setNegativeButton("Cancel",
+				.setNegativeButton("취소",
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
 

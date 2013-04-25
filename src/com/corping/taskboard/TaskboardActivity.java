@@ -3,8 +3,8 @@ package com.corping.taskboard;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.R.integer;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.SurfaceHolder;
@@ -18,13 +18,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.corping.R;
-import com.corping.create.CreateActivity;
-import com.corping.create.CreateTaskboardActivity;
 import com.corping.main.ProjectActivity;
-import com.corping.manual.ManualActivity;
 import com.corping.mypage.MypageActivity;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -42,6 +40,9 @@ public class TaskboardActivity extends Activity {
 	ArrayList<String> boardTitles = new ArrayList<String>();
 	ArrayList<String> objectIds = new ArrayList<String>();
 	ArrayList<Integer> members = new ArrayList<Integer>();
+	ArrayList<String> boarimages = new ArrayList<String>();
+
+	ProgressDialog progressdialog;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -49,8 +50,6 @@ public class TaskboardActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.taskboardpage);
 		init();
-
-		loadTaskBoard();
 
 		gridView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view,
@@ -60,7 +59,7 @@ public class TaskboardActivity extends Activity {
 						TaskList_Sorted_By_Member.class);
 				TextView objID = (TextView) view.findViewById(R.id.objectId);
 				TextView tv_title = (TextView) view.findViewById(R.id.tv_title);
-				
+
 				String objectId = objID.getText().toString();
 				String boardTitle = tv_title.getText().toString();
 				intent.putExtra("objectId", objectId);
@@ -71,6 +70,13 @@ public class TaskboardActivity extends Activity {
 
 	}
 
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		loadTaskBoard();
+	}
+
 	public void init() {
 
 		gridView = (GridView) findViewById(R.id.gridView1);
@@ -78,7 +84,6 @@ public class TaskboardActivity extends Activity {
 		String name = userObj.getString("name");
 		objectId = (TextView) findViewById(R.id.objectId);
 		tv_username.setText(name);
-//		tv_title = (TextView) findViewById(R.id.tv_title);
 
 	}
 
@@ -94,13 +99,20 @@ public class TaskboardActivity extends Activity {
 	public void plus(View v) {
 
 		Intent intent = new Intent(getApplicationContext(),
-				CreateTaskboardActivity.class);
+				TaskboardActivity_Create.class);
 		startActivity(intent);
 
 	}
 
 	public void loadTaskBoard() {
 
+		progressdialog = ProgressDialog.show(TaskboardActivity.this, "",
+				"보드 불러오는 중...");
+
+		boardTitles.clear();
+		objectIds.clear();
+		members.clear();
+		
 		ParseQuery query = new ParseQuery("TaskBoard");
 		query.orderByDescending("createdAt");
 		query.whereEqualTo("usernames", user);
@@ -115,22 +127,28 @@ public class TaskboardActivity extends Activity {
 
 						String boardTitle = obj.getString("boardTitle");
 						int member = obj.getInt("members");
+						
+						ParseFile boardimage = obj.getParseFile("boardImage");
+						String boardimageurl = boardimage.getUrl();
 
 						boardTitles.add(boardTitle);
 						members.add(member);
+						boarimages.add(boardimageurl);
 
 						ArrayList<String> list = (ArrayList<String>) obj
 								.get("members");
-						
+
 						objectIds.add(obj.getObjectId());
-						
-//						Toast.makeText(getApplicationContext(),obj.getObjectId(), 3000).show();
+
 
 					}
 
 					gridView.setAdapter(new GridAdapter(
-							getApplicationContext(), boardTitles, members, objectIds));
+							getApplicationContext(), boardTitles, members,
+							objectIds, boarimages));
 				}
+
+				progressdialog.dismiss();
 			}
 		});
 

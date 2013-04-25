@@ -26,7 +26,7 @@ public class MainActivity_Signin extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.main_signin);
+		setContentView(R.layout.mainpage_signin);
 
 		currentUser = ParseUser.getCurrentUser();
 

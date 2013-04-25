@@ -44,6 +44,9 @@
             android:name=".main.MainActivity_Signin"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".taskboard.TaskboardActivity_Create"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".taskboard.TaskboardActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -55,8 +58,6 @@
         <activity
             android:name=".taskboard.VideoPlayActivity"
             android:screenOrientation="portrait" />
-        
-        
         <activity
             android:name=".dashboard.VideoPlayActivity"
             android:screenOrientation="portrait" />
@@ -64,31 +65,25 @@
             android:name=".dashboard.VoicePlayActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".manual.ManualActivity"
+            android:name=".menual.ManualActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".manual.ManualActivity_Timeline"
+            android:name=".menual.ManualActivity_Timeline"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".manual.MediaActivity_Post"
+            android:name=".menual.MenualActivity_Post"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".manual.MediaActivity_Timeline"
+            android:name=".menual.MenualActivity_Menual"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".manual.VideoRecorderActivity"
+            android:name=".menual.MenualActivity_Record_Video"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".manual.AudioRecorderActivity2"
+            android:name=".menual.AudioRecorderActivity2"
             android:screenOrientation="portrait" />
         <activity
             android:name=".mypage.MypageActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".create.CreateActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".create.CreateTaskboardActivity"
             android:screenOrientation="portrait" />
 
         <receiver android:name=".main.MainActivity_Broadcast_SMS" >
@@ -97,13 +92,6 @@
             </intent-filter>
         </receiver>
 
-        <!-- <activity android:name=".media.MediaActivity_Post" /> -->
-        <!-- <activity android:name=".media.MediaActivity" /> -->
-        <!-- <activity android:name=".media.ChecklistActivity" /> -->
-        <!-- <activity android:name=".media.AudioRecorderActivity" /> -->
-        <!-- <activity android:name=".media.MediaActivity_Timeline" /> -->
-        <!-- <activity android:name=".media.AudioRecorderActivity2" /> -->
-        <!-- <activity android:name=".media.VideoRecorderActivity" /> -->
     </application>
 
 </manifest>

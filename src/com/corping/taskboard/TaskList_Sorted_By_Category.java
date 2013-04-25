@@ -3,6 +3,7 @@ package com.corping.taskboard;
 import java.util.ArrayList;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,11 +39,11 @@ public class TaskList_Sorted_By_Category extends FragmentActivity {
 	Intent intent;
 	String OBJECTID;
 
-	@Override
+	ProgressDialog progressdialog;
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.taskboardpage_list);
+		setContentView(R.layout.tasklistpage);
 
 		tv_boardtitle = (TextView) findViewById(R.id.tv_boardtitle);
 
@@ -64,56 +65,10 @@ public class TaskList_Sorted_By_Category extends FragmentActivity {
 
 	}
 
-//	public void getTaskboardList() {
-//
-//		ParseQuery query = new ParseQuery("TaskBoard");
-//		query.whereEqualTo("objectId", OBJECTID);
-//		query.getFirstInBackground(new GetCallback() {
-//
-//			@Override
-//			public void done(ParseObject object, ParseException e) {
-//				// TODO Auto-generated method stub
-//				ParseUser asdf = (ParseUser) object.get("admin");
-//				ParseUser myself = null;
-//				try {
-//					myself = asdf.fetch();
-//				} catch (ParseException e1) {
-//					// TODO Auto-generated catch block
-//					e1.printStackTrace();
-//				}
-//				ArrayList<ParseUser> list = (ArrayList<ParseUser>) object
-//						.get("user");
-//				for (ParseUser obj : list) {
-//					try {
-//						ParseUser user = obj.fetch();
-//						Bundle bundle = new Bundle();
-//						bundle.putString("username", user.getUsername());
-//						bundle.putString("name", user.getString("name"));
-//						bundle.putString("boardId", OBJECTID);
-//
-//						if ((ParseUser.getCurrentUser().getUsername())
-//								.equals(myself.getUsername())) {
-//
-//							bundle.putString("usernum", "1");
-//
-//						} else {
-//							bundle.putString("usernum", "0");
-//						}
-//
-//						MyFragment fragment = new MyFragment();
-//						fragment.setArguments(bundle);
-//						fragmentList.add(fragment);
-//					} catch (Exception e2) {
-//					}
-//				}
-//				adapter.notifyDataSetChanged();
-//			}
-//		});
-//
-//	}
 
 	public void getTaskboardList2() {
-
+		progressdialog = ProgressDialog.show(TaskList_Sorted_By_Category.this, "", "로딩중...");
+		
 		ParseQuery query = new ParseQuery("TaskBoard");
 		query.whereEqualTo("objectId", OBJECTID);
 		query.getFirstInBackground(new GetCallback() {
@@ -135,7 +90,7 @@ public class TaskList_Sorted_By_Category extends FragmentActivity {
 
 				}
 				adapter.notifyDataSetChanged();
-			
+				progressdialog.dismiss();
 
 			}
 		});

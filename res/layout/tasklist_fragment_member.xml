@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/tv_username"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:background="#3399ff"
+        android:gravity="center"
+        android:text="username"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="15dp" />
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linear_bottom"
+        android:layout_below="@+id/tv_username" >
+    </ListView>
+
+    <LinearLayout
+        android:id="@+id/linear_bottom"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone" >
+
+        <ImageButton
+            android:id="@+id/image_bt_insert"
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:background="@drawable/button_pressed_style"
+            android:src="@drawable/btn_ic_plus" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_bottom_textfield"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+
+        <EditText
+            android:id="@+id/et_insert"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="4"
+            android:background="@drawable/textbox_border_l"
+            android:ems="10"
+            android:lines="2"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textColor="#000000" >
+        </EditText>
+
+        <ImageButton
+            android:id="@+id/bt_insert_complete"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_pressed_style"
+            android:ems="10"
+            android:src="@drawable/btn_ic_plus2"
+            android:text="+" />
+    </LinearLayout>
+
+</RelativeLayout>

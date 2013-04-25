@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<color xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <color name="color_list_press" >#2065a9
+    </color>
+    <color name="color_list_focused" >#2065a9
+    </color>
+    <color name="color_list_default" >#3399ff
+    </color>
+
+</color>

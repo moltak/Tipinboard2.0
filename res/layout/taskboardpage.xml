@@ -61,7 +61,7 @@
         android:orientation="horizontal" >
 
         <ImageButton
-            android:background="#3399ff"
+            android:background="@drawable/button_pressed_style"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:onClick="plus"

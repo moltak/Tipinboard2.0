@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,11 +38,12 @@ public class TaskList_Sorted_By_Member extends FragmentActivity {
 	TextView tv_boardtitle;
 	Intent intent;
 	String OBJECTID, boardTitle;
-
+	
+	ProgressDialog progressdialog;
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.taskboardpage_list);
+		setContentView(R.layout.tasklistpage);
 
 		tv_boardtitle = (TextView) findViewById(R.id.tv_boardtitle);
 
@@ -67,6 +69,8 @@ public class TaskList_Sorted_By_Member extends FragmentActivity {
 
 	@SuppressLint("NewApi")
 	public void getTaskboardList() {
+		
+		progressdialog = ProgressDialog.show(TaskList_Sorted_By_Member.this, "", "로딩중...");
 
 		ParseQuery query = new ParseQuery("TaskBoard");
 		query.whereEqualTo("objectId", OBJECTID);
@@ -113,8 +117,8 @@ public class TaskList_Sorted_By_Member extends FragmentActivity {
 					
 				}
 				
-//	
 				adapter.notifyDataSetChanged();
+				progressdialog.dismiss();
 			}
 		});
 
@@ -126,15 +130,14 @@ public class TaskList_Sorted_By_Member extends FragmentActivity {
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setCancelable(true);
-		builder.setTitle("추가할분의 휴대폰번호를 기입해주세요.");
+		builder.setTitle("추가할 멤버의 휴대폰번호를 기입하세요.");
 		final EditText input = new EditText(this);
 		builder.setView(input);
 		builder.setInverseBackgroundForced(true);
-		builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+		builder.setPositiveButton("완료", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 
 				String phone = input.getText().toString();
-//				Toast.makeText(getApplicationContext(), phone, 3000).show();
 
 				try {
 					inviteEmployee(phone);
@@ -146,7 +149,7 @@ public class TaskList_Sorted_By_Member extends FragmentActivity {
 				dialog.dismiss();
 			}
 		});
-		builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+		builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
 			}
@@ -210,13 +213,7 @@ public class TaskList_Sorted_By_Member extends FragmentActivity {
 			this.fragmentList = fragmentList;
 		}
 
-		//
-		// public pagerAdpater(FragmentManager fm,
-		// ArrayList<MyFragment2> fragmentList2) {
-		// super(fm);
-		// // TODO Auto-generated constructor stub
-		// this.fragmentList = fragmentList2;
-		// }
+
 
 		@Override
 		public Fragment getItem(int arg0) {

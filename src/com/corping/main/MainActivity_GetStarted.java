@@ -37,7 +37,7 @@ public class MainActivity_GetStarted extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.main_getstarted);
+		setContentView(R.layout.mainpage_getstarted);
 
 		init();
 
@@ -94,6 +94,8 @@ public class MainActivity_GetStarted extends Activity {
 			smsManager.sendTextMessage(phone_no, null, verification_number,
 					null, null);
 			Toast.makeText(getApplicationContext(), "잠시만 기다려 주세요.",
+					Toast.LENGTH_LONG).show();
+			Toast.makeText(getApplicationContext(), "최대 1분정도 소요될 수 있습니다.",
 					Toast.LENGTH_LONG).show();
 			
 			

@@ -28,7 +28,7 @@ public class MainActivity_GetStarted_Verified extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.main_getstarted2);
+		setContentView(R.layout.mainpage_getstarted_verified);
 
 		init();
 		et_verification.setText(intent.getStringExtra("verification_message"));
