@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout01"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/LinearLayout01"
+        android:layout_width="270dp"
+        android:layout_height="340dp"
+        android:layout_margin="10dp"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/missionPlaceholder"
+            android:layout_width="270dp"
+            android:layout_height="170dp" >
+
+            <ImageView
+                android:id="@+id/missionImage"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:scaleType="centerCrop" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="270dp"
+            android:layout_height="170dp"
+            android:background="@drawable/card_text" >
+
+            <ImageView
+                android:id="@+id/missionNo"
+                android:layout_width="270dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:id="@+id/mission"
+                android:layout_below="@id/missionNo"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp" />
+
+<!--             <ImageView -->
+<!--                 android:id="@+id/verification" -->
+<!--                 android:layout_width="30dp" -->
+<!--                 android:background="@drawable/not_verified" -->
+<!--                 android:layout_height="30dp" -->
+<!--                 android:layout_alignParentBottom="true" -->
+<!--                 android:layout_alignParentRight="true" -->
+<!--                 android:layout_margin="20dp" /> -->
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>
