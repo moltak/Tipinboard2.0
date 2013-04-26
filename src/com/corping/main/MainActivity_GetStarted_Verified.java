@@ -2,6 +2,7 @@ package com.corping.main;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.corping.R;
+import com.corping.menual.MenualActivity_Post;
 import com.corping.taskboard.TaskboardActivity;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -25,6 +27,8 @@ public class MainActivity_GetStarted_Verified extends Activity {
 	EditText et_username, et_verification;
 	Intent intent;
 
+	ProgressDialog progressdialog;
+	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -60,9 +64,14 @@ public class MainActivity_GetStarted_Verified extends Activity {
 			Toast.makeText(getApplicationContext(), "모두 기입해 주세요~", 3000).show();
 
 		} else {
+			
+			
 
 			if ((et_verification.getText().toString()).equals(verfication_number)) {
 
+				
+				progressdialog = ProgressDialog.show(MainActivity_GetStarted_Verified.this, "",
+						"회원가입 중...");
 				ParseUser user = new ParseUser();
 				user.setUsername(phone);
 				user.put("name", username);
@@ -90,6 +99,7 @@ public class MainActivity_GetStarted_Verified extends Activity {
 									"이미 가입되셨습니다.", 3000).show();
 
 						}
+						progressdialog.dismiss();
 					}
 				});
 			}

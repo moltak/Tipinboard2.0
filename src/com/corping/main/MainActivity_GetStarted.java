@@ -45,6 +45,8 @@ public class MainActivity_GetStarted extends Activity {
 
 
 	public void verification(View v) {
+		
+		v.setEnabled(false);
 
 
 		phone_no = et_phone.getText().toString();
@@ -116,6 +118,8 @@ public class MainActivity_GetStarted extends Activity {
 		myEditor.putString("phone", number);
 		myEditor.commit();
 
+		finish();
+		
 	}
 
 	public void init() {
