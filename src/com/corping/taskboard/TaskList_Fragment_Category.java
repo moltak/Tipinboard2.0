@@ -55,6 +55,7 @@ public class TaskList_Fragment_Category extends Fragment {
 		View view = inflater.inflate(R.layout.tasklist_fragment_category, null, false);
 		
 		MyList = (ListView) view.findViewById(R.id.listView);
+		init();
 		tv_category = (TextView) view.findViewById(R.id.tv_category);
 		tv_category.setText(category);
 
@@ -85,7 +86,7 @@ public class TaskList_Fragment_Category extends Fragment {
 
 	}
 
-	public void init() {
+	private void init() {
 
 		MyList.setOnItemClickListener(new OnItemClickListener() {
 

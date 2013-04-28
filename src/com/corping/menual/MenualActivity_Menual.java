@@ -70,13 +70,16 @@ public class MenualActivity_Menual extends Activity {
 				tv_comment.setText(comment);
 
 				ParseFile contentPic = (ParseFile) obj.get("contentPic");
-				String pictureUrl = contentPic.getUrl();
-				imageloader.DisplayImage(pictureUrl, iv_contentPic);
-
+				if(contentPic != null) {
+					String pictureUrl = contentPic.getUrl();
+					imageloader.DisplayImage(pictureUrl, iv_contentPic);
+				}
 
 				ParseFile videoFile = (ParseFile) obj.get("contentVideo");
-				videoUrl = videoFile.getUrl();
-				Log.d("videoUrl", videoUrl);
+				if(videoFile != null) {
+					videoUrl = videoFile.getUrl();
+					Log.d("videoUrl", videoUrl);
+				}
 			}
 		});
 

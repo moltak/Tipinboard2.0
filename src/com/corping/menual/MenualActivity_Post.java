@@ -70,58 +70,70 @@ public class MenualActivity_Post extends Activity {
 
 		} else {
 
-			progressdialog = ProgressDialog.show(MenualActivity_Post.this, "",
-					"메뉴얼 저장 중...");
+			progressdialog = ProgressDialog.show(MenualActivity_Post.this, "", "메뉴얼 저장 중...");
 
-			final ParseFile contentPicFile = new ParseFile("contentPic.png",
-					contentPicture);
-			contentPicFile.saveInBackground(new SaveCallback() {
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						ParseFile contentPicFile = null, contentVideoFile = null;
+						if(contentPicture != null && contentPicture.length > 0) {
+							contentPicFile = new ParseFile("contentPic.png", contentPicture);
+							contentPicFile.save();
+						}
 
+						if(contentVideo != null && contentVideo.length > 0) {
+							contentVideoFile = new ParseFile( "video.MPEG_4", contentVideo);
+							contentVideoFile.save();
+						}
+
+						// memosave
+						ParseQuery query = new ParseQuery("TodoList");
+						query.whereEqualTo("objectId", objectId);
+						MemoSaveQuery memoSaveQuery = new MemoSaveQuery();
+						memoSaveQuery.setComment(comment);
+						memoSaveQuery.setContentPicFile(contentPicFile);
+						memoSaveQuery.setContentVideoFile(contentVideoFile);
+						query.getFirstInBackground(memoSaveQuery);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}).start();
+		}
+	}
+
+	private class MemoSaveQuery extends GetCallback {
+
+		private String comment;
+		private ParseFile contentPicFile, contentVideoFile;
+
+		@Override
+		public void done(ParseObject object, ParseException e) {
+			if(comment != null) object.put("comment", comment);
+			if(contentPicFile != null) object.put("contentPic", contentPicFile);
+			if(contentVideoFile != null) object.put("contentVideo", contentVideoFile);
+			object.saveInBackground(new SaveCallback() {
 				@Override
 				public void done(ParseException e) {
-					// TODO Auto-generated method stub
-
-					final ParseFile contentVideoFile = new ParseFile(
-							"video.MPEG_4", contentVideo);
-					contentVideoFile.saveInBackground(new SaveCallback() {
-
-						@Override
-						public void done(ParseException e) {
-
-							ParseQuery query = new ParseQuery("TodoList");
-							query.whereEqualTo("objectId", objectId);
-							query.getFirstInBackground(new GetCallback() {
-
-								@Override
-								public void done(ParseObject object,
-										ParseException e) {
-									// TODO Auto-generated method stub
-									object.put("comment", comment);
-									object.put("contentPic", contentPicFile);
-									object.put("contentVideo", contentVideoFile);
-									object.saveInBackground(new SaveCallback() {
-
-										@Override
-										public void done(ParseException e) {
-											// TODO Auto-generated method stub
-											progressdialog.dismiss();
-											Toast.makeText(
-													getApplicationContext(),
-													"메뉴얼 저장 완료!",
-													Toast.LENGTH_LONG).show();
-											finish();
-										}
-									});
-								}
-							});
-
-						}
-					});
+					progressdialog.dismiss();
+					Toast.makeText(getApplicationContext(), "메뉴얼 저장 완료!", Toast.LENGTH_LONG).show();
+					finish();
 				}
 			});
-
 		}
 
+		public void setComment(String comment) {
+			this.comment = comment;
+		}
+
+		public void setContentPicFile(ParseFile contentPicFile) {
+			this.contentPicFile = contentPicFile;
+		}
+
+		public void setContentVideoFile(ParseFile contentVideoFile) {
+			this.contentVideoFile = contentVideoFile;
+		}
 	}
 
 	public void media(View v) {
@@ -176,14 +188,14 @@ public class MenualActivity_Post extends Activity {
 
 				}
 				break;
-			// case SELECT_AUDIO:
-			// Toast.makeText(getApplicationContext(), "from audio", 3000)
-			// .show();
-			// contentAudio = data.getByteArrayExtra("audio");
-			// break;
+				// case SELECT_AUDIO:
+				// Toast.makeText(getApplicationContext(), "from audio", 3000)
+				// .show();
+				// contentAudio = data.getByteArrayExtra("audio");
+				// break;
 			case SELECT_VIDEO:
 				Toast.makeText(getApplicationContext(), "비디오가 추가 됐습니다.", 3000)
-						.show();
+				.show();
 				contentVideo = data.getByteArrayExtra("video");
 				break;
 

@@ -75,8 +75,7 @@ public class TaskList_Sorted_By_Category extends FragmentActivity {
 
 			public void done(ParseObject object, ParseException e) {
 		
-				ArrayList<String> list = (ArrayList<String>) object
-						.get("category");
+				ArrayList<String> list = (ArrayList<String>) object.get("category");
 
 				for (String category : list) {
 
