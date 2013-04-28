@@ -29,15 +29,13 @@ public class LazyAdapter extends BaseAdapter {
 	// ArrayList<String> mContent;
 	// ArrayList<String> objectId;
 
-	public LazyAdapter(Activity a, ArrayList<String> items,
-			ArrayList<String> objectIds, ArrayList<String> categories) {
+	public LazyAdapter(Activity a, ArrayList<String> items, ArrayList<String> objectIds, ArrayList<String> categories) {
 		activity = a;
 		// data = mStrings;
 		this.items = items;
 		this.objectIds = objectIds;
 		this.categories = categories;
-		inflater = (LayoutInflater) activity
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		// imageLoader = new ImageLoader(activity.getApplicationContext());
 	}
 

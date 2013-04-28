@@ -46,17 +46,13 @@ public class TaskList_Fragment_Category extends Fragment {
 	EditText et_insert;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Bundle bundle = getArguments();
 
 		final String boardId = bundle.getString("boardId");
 		final String category = bundle.getString("category");
 
-
 		View view = inflater.inflate(R.layout.tasklist_fragment_category, null, false);
-//		init();
-	
 		
 		MyList = (ListView) view.findViewById(R.id.listView);
 		tv_category = (TextView) view.findViewById(R.id.tv_category);
@@ -69,23 +65,18 @@ public class TaskList_Fragment_Category extends Fragment {
 
 			@Override
 			public void done(List<ParseObject> objects, ParseException e) {
-				// TODO Auto-generated method stub
 				for (ParseObject obj : objects) {
-
 					String item = obj.getString("item");
 					items.add(item);
-
 					String objectId = obj.getObjectId();
 					objectIds.add(objectId);
-
 					String names = obj.getString("name");
 					categories.add(names);
-
 				}
-				lazyadapter = new LazyAdapter(getActivity(), items, objectIds,
-						categories);
-
-				MyList.setAdapter(lazyadapter);
+				if(getActivity() != null) {
+					lazyadapter = new LazyAdapter(getActivity(), items, objectIds,categories);
+					MyList.setAdapter(lazyadapter);
+				}
 			}
 		});
 
