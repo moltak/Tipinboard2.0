@@ -8,7 +8,9 @@ import android.widget.Toast;
 
 import com.corping.R;
 import com.corping.taskboard.TaskboardActivity;
+import com.parse.LogInCallback;
 import com.parse.ParseAnalytics;
+import com.parse.ParseException;
 import com.parse.ParseUser;
 
 public class ProjectActivity extends Activity {
@@ -19,35 +21,29 @@ public class ProjectActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.main);
-
-		ParseAnalytics.trackAppOpened(getIntent());
-
-		String name = currentUser.getString("name");
-
-//		 currentUser = null;
-
-		if (currentUser != null && name != null) {
-
-			Intent intent = new Intent(getApplicationContext(),
-					TaskboardActivity.class);
-
-			startActivity(intent);
-			finish();
-
-		} else {
-
-			Toast.makeText(getApplicationContext(), "로그인 해주세요~", 5000).show();
-			getStarted();
+		
+		try {
+			ParseAnalytics.trackAppOpened(getIntent());
+			String name = currentUser.getString("name");
+			
+			if (currentUser != null && name != null) {
+				Intent intent = new Intent(getApplicationContext(), TaskboardActivity.class);
+				startActivity(intent);
+				finish();
+			} else {
+				Toast.makeText(getApplicationContext(), "로그인 해주세요~", 5000).show();
+				getStarted();
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}
 
 	public void getStarted() {
-
-		Intent intent = new Intent(getApplicationContext(),
-				MainActivity_GetStarted.class);
+		Intent intent = new Intent(getApplicationContext(), MainActivity_GetStarted.class);
 		startActivity(intent);
 		finish();
 	}
-
 }

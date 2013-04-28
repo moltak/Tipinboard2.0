@@ -120,34 +120,29 @@ public class TaskboardActivity extends Activity {
 
 			@Override
 			public void done(List<ParseObject> objects, ParseException e) {
-				// TODO Auto-generated method stub
-
 				if (e == null) {
 					for (ParseObject obj : objects) {
 
-						String boardTitle = obj.getString("boardTitle");
-						int member = obj.getInt("members");
-						
-						ParseFile boardimage = obj.getParseFile("boardImage");
-						String boardimageurl = boardimage.getUrl();
-
-						boardTitles.add(boardTitle);
-						members.add(member);
-						boarimages.add(boardimageurl);
-
-						ArrayList<String> list = (ArrayList<String>) obj
-								.get("members");
-
-						objectIds.add(obj.getObjectId());
-
-
+						try {
+							String boardTitle = obj.getString("boardTitle");
+							int member = obj.getInt("members");
+							ParseFile boardimage = null;
+							if(obj.containsKey("boardImage")) {
+								boardimage = obj.getParseFile("boardImage");
+								String boardimageurl = boardimage.getUrl();
+								boarimages.add(boardimageurl);
+							}
+							boardTitles.add(boardTitle);
+							members.add(member);
+							objectIds.add(obj.getObjectId());
+						} catch (Exception e2) {
+							e2.printStackTrace();
+						}
 					}
-
 					gridView.setAdapter(new GridAdapter(
 							getApplicationContext(), boardTitles, members,
 							objectIds, boarimages));
 				}
-
 				progressdialog.dismiss();
 			}
 		});
