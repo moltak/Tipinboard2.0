@@ -46,6 +46,7 @@ public class TaskList_Sorted_By_Category extends FragmentActivity {
 		setContentView(R.layout.tasklistpage);
 
 		tv_boardtitle = (TextView) findViewById(R.id.tv_boardtitle);
+		tv_boardtitle.setOnClickListener(new HomeButtonClick());
 
 		pager = (ViewPager) findViewById(R.id.viewpager);
 		adapter = new pagerAdpater(getSupportFragmentManager(), fragmentList);
@@ -64,8 +65,7 @@ public class TaskList_Sorted_By_Category extends FragmentActivity {
 		getTaskboardList2();
 
 	}
-
-
+	
 	public void getTaskboardList2() {
 		progressdialog = ProgressDialog.show(TaskList_Sorted_By_Category.this, "", "로딩중...");
 		
@@ -134,11 +134,23 @@ public class TaskList_Sorted_By_Category extends FragmentActivity {
 		Toast.makeText(getApplicationContext(), "+ person!", 3000).show();
 
 	}
-
+	
+	private class HomeButtonClick implements View.OnClickListener {
+		@Override
+		public void onClick(View paramView) {
+			setResult(TaskList_Sorted_By_Member.TASKLIST_SORTED_BY_CATEGORY_ACTIVITY);
+			finish();			
+		}
+	}
+	
 	public void convertView(View v) {
-
 		finish();
-		
+	}
+	
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		setResult(TaskList_Sorted_By_Member.TASKLIST_SORTED_BY_CATEGORY_ACTIVITY);
 	}
 
 	public void inviteEmployee(String phone) throws ParseException {

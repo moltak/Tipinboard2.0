@@ -13,7 +13,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
@@ -29,6 +28,8 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 public class TaskList_Sorted_By_Member extends FragmentActivity {
+	
+	public static final int TASKLIST_SORTED_BY_CATEGORY_ACTIVITY = 0x1001;
 
 	ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();
 	ViewPager pager;
@@ -46,6 +47,7 @@ public class TaskList_Sorted_By_Member extends FragmentActivity {
 		setContentView(R.layout.tasklistpage);
 
 		tv_boardtitle = (TextView) findViewById(R.id.tv_boardtitle);
+		tv_boardtitle.setOnClickListener(new HomeButtonClick());
 
 		pager = (ViewPager) findViewById(R.id.viewpager);
 		adapter = new pagerAdpater(getSupportFragmentManager(), fragmentList);
@@ -65,8 +67,6 @@ public class TaskList_Sorted_By_Member extends FragmentActivity {
 
 	}
 	
-
-
 	@SuppressLint("NewApi")
 	public void getTaskboardList() {
 		
@@ -80,11 +80,7 @@ public class TaskList_Sorted_By_Member extends FragmentActivity {
 			public void done(ParseObject object, ParseException e) {
 				// TODO Auto-generated method stub
 
-				
-				
 				String myself = object.getString("adminName");
-				
-				
 				ArrayList<String> usernames = (ArrayList<String>) object
 						.get("usernames");
 				ArrayList<String> names = (ArrayList<String>) object
@@ -162,16 +158,29 @@ public class TaskList_Sorted_By_Member extends FragmentActivity {
 		Toast.makeText(getApplicationContext(), "+ person!", 3000).show();
 
 	}
+	
+	private class HomeButtonClick implements View.OnClickListener {
+		@Override
+		public void onClick(View paramView) {
+			setResult(TaskList_Sorted_By_Member.TASKLIST_SORTED_BY_CATEGORY_ACTIVITY);
+			finish();			
+		}
+	}
 
 	public void convertView(View v) {
-
-		Intent intent = new Intent(getApplicationContext(),
-				TaskList_Sorted_By_Category.class);
-		intent.addFlags(intent.FLAG_ACTIVITY_NO_ANIMATION);
+		Intent intent = new Intent(getApplicationContext(), TaskList_Sorted_By_Category.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 		intent.putExtra("objectId", OBJECTID);
 		intent.putExtra("boardTitle", boardTitle);
-		startActivity(intent);
-
+		startActivityForResult(intent, TASKLIST_SORTED_BY_CATEGORY_ACTIVITY);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(requestCode == TASKLIST_SORTED_BY_CATEGORY_ACTIVITY && resultCode == TASKLIST_SORTED_BY_CATEGORY_ACTIVITY) {
+			finish();
+		}
 	}
 
 	public void inviteEmployee(String phone) throws ParseException {
